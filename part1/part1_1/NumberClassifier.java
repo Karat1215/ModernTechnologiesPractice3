@@ -12,6 +12,7 @@ public class NumberClassifier {
     public static String classify(int number) {
         // TODO: верните категорию для number по условию задания.
         // ▼ ВАШ КОД ЗДЕСЬ ▼
+        if (number < 0) return "< 0";
         return "TODO";
         // ▲ КОНЕЦ ВАШЕГО КОДА ▲
     }
