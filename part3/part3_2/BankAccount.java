@@ -6,47 +6,72 @@ public class BankAccount {
     private final String owner;
     private int failedAttempts;
     private boolean blocked;
-    private String pin;
+    private final String pin;
 
     public BankAccount(String accountNumber, String owner, String pin, double initialBalance) {
         this.accountNumber = accountNumber;
         this.owner = owner;
         this.pin = pin;
         this.balance = initialBalance;
+        this.failedAttempts = 0;
+        this.blocked = false;
     }
 
-    public boolean validatePin(String enteredPin) {
-        return pin != null && pin.equals(enteredPin);
+    public void withdraw(String enteredPin, double amount) {
+        if (blocked) {
+            System.out.println("Счёт заблокирован! Операция невозможна.");
+            return;
+        }
+
+        if (!enteredPin.equals(pin)) {
+            failedAttempts++;
+            System.out.println("Неверный PIN. Попыток: " + failedAttempts + "/3");
+            if (failedAttempts >= 3) {
+                blocked = true;
+                System.out.println("Счёт ЗАБЛОКИРОВАН!");
+            }
+            return;
+        }
+
+        failedAttempts = 0;
+
+        if (amount <= 0) {
+            System.out.println("Сумма должна быть положительной");
+            return;
+        }
+
+        if (amount > balance) {
+            System.out.println("Недостаточно средств. Доступно: " + getMaskedBalance());
+            return;
+        }
+
+        balance -= amount;
+        System.out.println("Снято " + amount + "₽. Баланс: " + getMaskedBalance());
     }
 
-    public boolean deposit(double amount) {
-        // TODO: пополнение разрешено только при amount > 0.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return false;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            System.out.println("Сумма должна быть положительной");
+            return;
+        }
+        balance += amount;
+        System.out.println("Зачислено " + amount + "₽. Баланс: " + getMaskedBalance());
     }
 
-    public boolean withdraw(String enteredPin, double amount) {
-        // TODO: реализуйте логику блокировки и попыток:
-        // 1) если blocked -> отказ;
-        // 2) неверный PIN увеличивает failedAttempts;
-        // 3) при 3 неверных попытках blocked=true;
-        // 4) верный PIN сбрасывает failedAttempts и проверяет amount.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return false;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+    public boolean validatePin(String pin) {
+        return this.pin.equals(pin);
     }
 
     public String getMaskedBalance() {
-        // TODO: скрывайте суммы свыше 100000.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return "TODO";
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+        if (balance > 100000) {
+            return "******";
+        }
+        return String.format("%.2f", balance) + "₽";
     }
 
     @Override
     public String toString() {
-        return String.format("BankAccount{%s, owner=%s, balance=%s}%s",
-            accountNumber, owner, getMaskedBalance(), blocked ? " [ЗАБЛОКИРОВАН]" : "");
+        return "Счёт " + accountNumber + " | Владелец: " + owner + " | " +
+                (blocked ? "[ЗАБЛОКИРОВАН]" : "Баланс: " + getMaskedBalance());
     }
 }
