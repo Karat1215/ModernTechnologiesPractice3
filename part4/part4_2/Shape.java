@@ -18,6 +18,6 @@ public abstract class Shape {
     @Override
     public String toString() {
         return String.format("%s[цвет=%s, S=%.2f, P=%.2f]",
-            getClass().getSimpleName(), color, area(), perimeter());
+                getClass().getSimpleName(), color, area(), perimeter());
     }
 }

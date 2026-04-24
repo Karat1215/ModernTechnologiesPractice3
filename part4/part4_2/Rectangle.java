@@ -1,5 +1,4 @@
 package part4.part4_2;
-
 public class Rectangle extends Shape {
     protected double width;
     protected double height;
@@ -11,13 +10,17 @@ public class Rectangle extends Shape {
     }
 
     @Override
-    public double area() { return width * height; }
+    public double area() {
+        return width * height;
+    }
 
     @Override
-    public double perimeter() { return 2 * (width + height); }
+    public double perimeter() {
+        return 2 * (width + height);
+    }
 
     @Override
     public void draw() {
-        System.out.printf("Рисую %s прямоугольник %.1f x %.1f%n", color, width, height);
+        System.out.printf("Рисуем %s прямоугольник %.1f x %.1f\n", color, width, height);
     }
 }
