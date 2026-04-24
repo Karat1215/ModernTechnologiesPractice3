@@ -2,33 +2,43 @@ package part2.part2_2;
 
 public class Fibonacci {
 
-    public static long fibIterative(int n) {
-        // TODO: реализуйте while-вариант.
-        // Подсказка: базовые случаи n=0 и n=1 обработайте отдельно.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return -1;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+    // Итеративный через while
+    public static int fibIterative(int n) {
+        if (n <= 1) return n;
+        int a = 0, b = 1, c = 0;
+        int i = 2;
+        while (i <= n) {
+            c = a + b;
+            a = b;
+            b = c;
+            i++;
+        }
+        return b;
     }
 
-    public static long fibFor(int n) {
-        // TODO: реализуйте for-вариант.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return -1;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
-    }
-
-    public static long firstGreaterThan(long threshold) {
-        // TODO: найдите первое число Фибоначчи > threshold.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return -1;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+    // Через for
+    public static int fibFor(int n) {
+        if (n <= 1) return n;
+        int a = 0, b = 1;
+        for (int i = 2; i <= n; i++) {
+            int c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
     }
 
     public static void main(String[] args) {
+        System.out.println("Числа Фибоначчи F(0)..F(15):");
         for (int i = 0; i <= 15; i++) {
-            System.out.printf("F(%d)=%d | %d%n", i, fibIterative(i), fibFor(i));
+            System.out.println("F(" + i + ") = " + fibFor(i));
         }
-        System.out.println("Первое число Фибоначчи > 1000: " + firstGreaterThan(1000));
-        // Проверь себя: обе реализации fib дают одинаковые значения.
+
+        // Первое число > 1000
+        int n = 0;
+        while (fibFor(n) <= 1000) {
+            n++;
+        }
+        System.out.println("\nПервое число Фибоначчи > 1000: F(" + n + ") = " + fibFor(n));
     }
 }

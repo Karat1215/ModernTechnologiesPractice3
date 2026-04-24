@@ -1,50 +1,87 @@
 package part2.part2_3;
 
 public class StringProcessor {
-    private static final String VOWELS = "aeiouyаеёиоуыэюя";
 
+    // Подсчёт гласных (русские + английские)
     public static int countVowels(String text) {
-        // TODO: посчитайте русские и английские гласные.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return -1;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+        String vowels = "аеёиоуыэюяaeiouyАЕЁИОУЫЭЮЯAEIOUY";
+        int count = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (vowels.indexOf(text.charAt(i)) != -1) {
+                count++;
+            }
+        }
+        return count;
     }
 
+    // Проверка на палиндром (без учёта регистра и знаков препинания)
     public static boolean isPalindrome(String text) {
-        // TODO: палиндром без учета регистра и знаков препинания.
-        // Подсказка: сравнение символов с двух концов.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return false;
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+        String clean = text.toLowerCase().replaceAll("[^а-яa-z0-9]", "");
+        int left = 0, right = clean.length() - 1;
+        while (left < right) {
+            if (clean.charAt(left) != clean.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 
+    // Реверс строки (без StringBuilder)
     public static String reverse(String text) {
-        // TODO: реверс без StringBuilder.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return "";
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+        char[] chars = text.toCharArray();
+        int left = 0, right = chars.length - 1;
+        while (left < right) {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+        return new String(chars);
     }
 
+    // Самое длинное слово
     public static String findLongestWord(String sentence) {
-        // TODO: найдите самое длинное слово.
-        // ▼ ВАШ КОД ЗДЕСЬ ▼
-        return "";
-        // ▲ КОНЕЦ ВАШЕГО КОДА ▲
+        String[] words = sentence.split("[ .,!?;:-]+");
+        String longest = "";
+        for (String word : words) {
+            if (word.length() > longest.length()) {
+                longest = word;
+            }
+        }
+        return longest;
     }
 
     public static void main(String[] args) {
-        String s1 = "Привет, Java-разработчик!";
-        String s2 = "топот";
-        String s3 = "Madam";
-        String s4 = "hello";
-        String s5 = "А роза упала на лапу Азора";
-        String s6 = "The quick brown fox jumps over the lazy dog";
+        String[] testStrings = {
+                "Привет, Java-разработчик!",
+                "топот",
+                "Madam",
+                "hello",
+                "А роза упала на лапу Азора",
+                "The quick brown fox jumps over the lazy dog"
+        };
 
-        System.out.println("Гласные: " + countVowels(s1));
-        System.out.println("Палиндром (топот): " + isPalindrome(s2));
-        System.out.println("Палиндром (Madam): " + isPalindrome(s3));
-        System.out.println("Реверс (hello): " + reverse(s4));
-        System.out.println("Палиндром (фраза): " + isPalindrome(s5));
-        System.out.println("Самое длинное слово: " + findLongestWord(s6));
+        System.out.println("=== Гласные ===");
+        for (String s : testStrings) {
+            System.out.println("\"" + s + "\" -> гласных: " + countVowels(s));
+        }
+
+        System.out.println("\n=== Палиндромы ===");
+        for (String s : testStrings) {
+            System.out.println("\"" + s + "\" -> " + (isPalindrome(s) ? "палиндром" : "не палиндром"));
+        }
+
+        System.out.println("\n=== Реверс ===");
+        for (String s : testStrings) {
+            System.out.println("\"" + s + "\" -> \"" + reverse(s) + "\"");
+        }
+
+        System.out.println("\n=== Самое длинное слово ===");
+        for (String s : testStrings) {
+            System.out.println("\"" + s + "\" -> \"" + findLongestWord(s) + "\"");
+        }
     }
 }
